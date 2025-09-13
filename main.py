@@ -2,7 +2,7 @@ import yfinance as yf
 import pandas
 
 print("-----")
-ticker = 'AAPL'
+ticker = input("Which ticker would you like to do the back-testing for?")
 data = yf.download(ticker, start='2020-01-01', end='2025-01-01')
 print(data.info())
 print(data.head())
@@ -27,6 +27,8 @@ print("-----")
 data["Action"] = data["Action"].astype(int)
 print(data)
 
+data["Action"] = data["Action"].shift(1).fillna(0)
+
 print("-----")
 data["StratRet"] = data["MarketRet"] * data["Action"]
 print(data)
@@ -37,6 +39,8 @@ data['StratEquity']  = (1 + data['StratRet']).cumprod()
 print(data)
 
 print("-----")
+print(data["MarketEquity"])
+print(data["StratEquity"])
 
-
+print("-----")
 
